@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      trubaDulga_0: -7797434276725970810
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

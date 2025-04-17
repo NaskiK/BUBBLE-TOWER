@@ -209,7 +209,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      ratz_run_0: 3769678996099104194
+      ratz_run_1: 7200813172176534633
+      ratz_run_2: 7169214228672061545
+      ratz_run_3: 6256245935201794819
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

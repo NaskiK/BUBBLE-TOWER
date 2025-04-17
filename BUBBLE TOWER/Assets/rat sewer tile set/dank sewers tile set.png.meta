@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      dank sewers tile set_0: -5470220449431418452
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
