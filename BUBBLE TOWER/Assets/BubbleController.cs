@@ -22,7 +22,7 @@ public class BubbleController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = 0f; // We simulate gravity manually
+        rb.gravityScale = 0f; // Simulate gravity manually
         rb.freezeRotation = true;
 
         velocity = Vector2.zero;
@@ -34,7 +34,15 @@ public class BubbleController : MonoBehaviour
 
     void Update()
     {
-        if (isPopped) return;
+        // Allow retry with "W" key when popped
+        if (isPopped)
+        {
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                Retry();
+            }
+            return;
+        }
 
         Vector2 targetVelocity = Vector2.zero;
 
@@ -44,13 +52,13 @@ public class BubbleController : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) targetVelocity.x -= moveSpeed;
         if (Input.GetKey(KeyCode.D)) targetVelocity.x += moveSpeed;
 
-        // Apply gravity when not pressing anything upward
+        // Apply gravity when not pressing up
         if (!Input.GetKey(KeyCode.W))
         {
             targetVelocity.y -= gravity;
         }
 
-        // Smooth acceleration
+        // Smooth movement with acceleration
         velocity = Vector2.Lerp(velocity, targetVelocity, Time.deltaTime * acceleration);
         rb.linearVelocity = velocity;
     }
@@ -78,7 +86,6 @@ public class BubbleController : MonoBehaviour
 
         isPopped = true;
         rb.linearVelocity = Vector2.zero;
-        rb.angularVelocity = 0f;
         rb.isKinematic = true;
 
         if (bubbleAudioSource && popSound)
@@ -89,7 +96,7 @@ public class BubbleController : MonoBehaviour
         if (youPoppedUI != null)
             youPoppedUI.SetActive(true);
         else
-            StartCoroutine(RespawnAfterPop());
+            Respawn();
     }
 
     public void Retry()
@@ -97,22 +104,17 @@ public class BubbleController : MonoBehaviour
         if (youPoppedUI != null)
             youPoppedUI.SetActive(false);
 
-        StartCoroutine(RespawnAfterPop());
+        Respawn();
         GameManager.Instance?.AddAttempt();
     }
 
-    IEnumerator RespawnAfterPop()
+    void Respawn()
     {
-        // No delay — instant respawn
         transform.position = respawnPosition;
-
-        rb.linearVelocity = Vector2.zero;
-        rb.angularVelocity = 0f;
         rb.isKinematic = false;
-        velocity = Vector2.zero;
-
+        rb.linearVelocity = Vector2.zero;        // ← Important: clear motion
+        rb.angularVelocity = 0f;           // ← Clear any spin
+        velocity = Vector2.zero;           // ← Reset smoothed velocity
         isPopped = false;
-
-        yield return null; // Optional — lets Unity finish the frame
     }
 }
