@@ -47,10 +47,10 @@ public class BubbleController : MonoBehaviour
         Vector2 targetVelocity = Vector2.zero;
 
         // WASD input
-        if (Input.GetKey(KeyCode.W)) targetVelocity.y += verticalSpeed;
-        if (Input.GetKey(KeyCode.S)) targetVelocity.y -= verticalSpeed;
-        if (Input.GetKey(KeyCode.A)) targetVelocity.x -= moveSpeed;
-        if (Input.GetKey(KeyCode.D)) targetVelocity.x += moveSpeed;
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) targetVelocity.y += verticalSpeed;
+    if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) targetVelocity.y -= verticalSpeed;
+    if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) targetVelocity.x -= moveSpeed;
+    if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) targetVelocity.x += moveSpeed;
 
         // Apply gravity when not pressing up
         if (!Input.GetKey(KeyCode.W))
