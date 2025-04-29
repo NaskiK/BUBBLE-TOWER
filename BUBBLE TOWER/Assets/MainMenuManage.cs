@@ -6,6 +6,7 @@ public class MainMenuManager : MonoBehaviour
 {
     public GameObject mainMenuPanel;
     public GameObject tutorialPanel;
+    public BubbleController bubbleController; // Reference to BubbleController
 
     void Start()
     {
@@ -19,6 +20,7 @@ public class MainMenuManager : MonoBehaviour
         mainMenuPanel.SetActive(false);
         tutorialPanel.SetActive(false);
         Time.timeScale = 1f; // Resume game
+        bubbleController.ResetToStart(); // Reset bubble to starting position
     }
 
     public void OpenTutorial()

@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class MusicPlayer : MonoBehaviour
+public class MusicSwitcher : MonoBehaviour
 {
-    void Awake()
-    {
-        // Only one music player allowed
-        if (GameObject.FindObjectsOfType<MusicPlayer>().Length > 1)
-        {
-            Destroy(gameObject);
-            return;
-        }
+    public AudioSource gameMusic;
+    public AudioSource menuMusic;
 
-        DontDestroyOnLoad(gameObject);
+    public void PlayGameMusic()
+    {
+        if (menuMusic.isPlaying) menuMusic.Stop();
+        if (!gameMusic.isPlaying) gameMusic.Play();
+    }
+
+    public void PlayMenuMusic()
+    {
+        if (gameMusic.isPlaying) gameMusic.Stop();
+        if (!menuMusic.isPlaying) menuMusic.Play();
     }
 }

@@ -117,4 +117,13 @@ public class BubbleController : MonoBehaviour
         velocity = Vector2.zero;           // ← Reset smoothed velocity
         isPopped = false;
     }
+
+    public void ResetToStart()
+{
+    rb.linearVelocity = Vector2.zero;
+    rb.isKinematic = false;
+    isPopped = false;
+    transform.position = respawnPosition;
+}
+
 }
