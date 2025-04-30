@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using System.Collections;
 
 public class BubbleController : MonoBehaviour
@@ -17,12 +18,17 @@ public class BubbleController : MonoBehaviour
     public AudioSource bubbleAudioSource;
     public AudioClip popSound;
 
+    public Image fadeImage;
+    public GameObject youWonUI;
+    public float floatUpSpeed = 2f;
+
     private bool isPopped = false;
+    private bool isWinning = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = 0f; // Simulate gravity manually
+        rb.gravityScale = 0f;
         rb.freezeRotation = true;
 
         velocity = Vector2.zero;
@@ -34,7 +40,6 @@ public class BubbleController : MonoBehaviour
 
     void Update()
     {
-        // Allow retry with "W" key when popped
         if (isPopped)
         {
             if (Input.GetKeyDown(KeyCode.W))
@@ -44,21 +49,24 @@ public class BubbleController : MonoBehaviour
             return;
         }
 
+        if (isWinning)
+        {
+            rb.linearVelocity = new Vector2(0, floatUpSpeed);
+            return;
+        }
+
         Vector2 targetVelocity = Vector2.zero;
 
-        // WASD input
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) targetVelocity.y += verticalSpeed;
-    if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) targetVelocity.y -= verticalSpeed;
-    if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) targetVelocity.x -= moveSpeed;
-    if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) targetVelocity.x += moveSpeed;
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) targetVelocity.y -= verticalSpeed;
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) targetVelocity.x -= moveSpeed;
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) targetVelocity.x += moveSpeed;
 
-        // Apply gravity when not pressing up
-        if (!Input.GetKey(KeyCode.W))
+        if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.UpArrow))
         {
             targetVelocity.y -= gravity;
         }
 
-        // Smooth movement with acceleration
         velocity = Vector2.Lerp(velocity, targetVelocity, Time.deltaTime * acceleration);
         rb.linearVelocity = velocity;
     }
@@ -77,6 +85,10 @@ public class BubbleController : MonoBehaviour
         {
             respawnPosition = other.transform.position;
             Debug.Log("Checkpoint reached!");
+        }
+        else if (other.CompareTag("Win"))
+        {
+            StartCoroutine(WinSequence());
         }
     }
 
@@ -112,18 +124,38 @@ public class BubbleController : MonoBehaviour
     {
         transform.position = respawnPosition;
         rb.isKinematic = false;
-        rb.linearVelocity = Vector2.zero;        // ← Important: clear motion
-        rb.angularVelocity = 0f;           // ← Clear any spin
-        velocity = Vector2.zero;           // ← Reset smoothed velocity
+        rb.linearVelocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+        velocity = Vector2.zero;
         isPopped = false;
     }
 
     public void ResetToStart()
-{
-    rb.linearVelocity = Vector2.zero;
-    rb.isKinematic = false;
-    isPopped = false;
-    transform.position = respawnPosition;
-}
+    {
+        rb.linearVelocity = Vector2.zero;
+        rb.isKinematic = false;
+        isPopped = false;
+        transform.position = respawnPosition;
+    }
 
+    IEnumerator WinSequence()
+    {
+        isWinning = true;
+        rb.linearVelocity = Vector2.zero;
+        rb.gravityScale = 0;
+        Time.timeScale = 1f;
+
+        float t = 0;
+        Color c = fadeImage.color;
+        while (t < 1f)
+        {
+            t += Time.deltaTime;
+            c.a = Mathf.Lerp(0, 1, t);
+            fadeImage.color = c;
+            yield return null;
+        }
+
+        youWonUI.SetActive(true);
+        isWinning = false;
+    }
 }
