@@ -3565,15 +3565,15 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 847205781}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 27def4c3fd188f143b79587c7647fbd6, type: 3}
   m_Resource: {fileID: 8300000, guid: 27def4c3fd188f143b79587c7647fbd6, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -10234,7 +10234,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1177741999
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14701,7 +14701,7 @@ MonoBehaviour:
   bubbleAudioSource: {fileID: 0}
   popSound: {fileID: 8300000, guid: 329030b0de147054bad0473c457701a8, type: 3}
   fadeImage: {fileID: 1251364216}
-  youWonUI: {fileID: 0}
+  youWonUI: {fileID: 1177741998}
   floatUpSpeed: 2
 --- !u!58 &2105229323
 CircleCollider2D:
