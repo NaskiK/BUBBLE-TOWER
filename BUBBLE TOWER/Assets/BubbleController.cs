@@ -42,7 +42,7 @@ public class BubbleController : MonoBehaviour
     {
         if (isPopped)
         {
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W)|| Input.GetKeyDown(KeyCode.UpArrow))
             {
                 Retry();
             }
